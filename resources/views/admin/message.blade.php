@@ -1,0 +1,13 @@
+@if(Session::has('error'))
+<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <h4><i class="icon fa fa-ban"></i> Không thành công!</h4> {{Session::get('error')}}
+</div>
+@endif
+
+@if(Session::has('success'))
+<div class="alert alert-success alert-dismissible">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <h4><i class="icon fa fa-check"></i> Thành công!</h4> {{Session::get('success')}}
+</div>
+@endif
