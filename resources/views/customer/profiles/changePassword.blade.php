@@ -2,7 +2,7 @@
 @section('content')
     @vite(["resources/sass/app.scss", "resources/js/app.js"])
     <head>
-        <title>Thay đổi mật khẩu</title>
+        <title>Thay đổi mật khẩu - Paradise Theatre</title>
         <link rel="stylesheet" href="{{asset('frontend/css/main.css')}}">
         <meta name="csrf-token" content="{{ csrf_token() }}">
     </head>

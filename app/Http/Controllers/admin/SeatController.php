@@ -13,8 +13,9 @@ class SeatController extends Controller
 {
     public function index(Request $request){
         $seats = Seat::orderBy('number_of_col','desc')->orderBy('id','desc');
-        if (!empty($seats->get('number_of_row'))){
-            $seats = $seats->where('number_of_row', 'like', '%'.$request->get('number_of_row').'%' );
+        if (!empty($seats->get('number_of_col'))){
+            $seats = $seats->where('number_of_row', 'like', '%'.$request->get('keyword').'%' )
+            ->orWhere('type_id', 'like', '%'.$request->get('keyword').'%' );
         }
         $seats = $seats->paginate(10);
 

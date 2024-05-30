@@ -31,7 +31,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="price">Giá</label>
-                                    <input value="{{$seatType->price}}" type="number" min="10" max="120" name="price" id="price" class="form-control" placeholder="price">
+                                    <input value="{{$seatType->price}}" type="number" min="10" name="price" id="price" class="form-control" placeholder="price">
                                     <p></p>
                                 </div>
                             </div>

@@ -1,9 +1,8 @@
-
 @extends('layouts.customer-nav')
 @section('content')
     @vite(["resources/sass/app.scss", "resources/js/app.js"])
     <head>
-        <title>Help</title>
+        <title>Help - Paradise Theatre</title>
         <link rel="stylesheet" href="{{asset('frontend/css/main.css')}}">
     </head>
     <body style="background-color: #00001c;">

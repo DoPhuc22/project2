@@ -26,12 +26,20 @@
                 </div>
             </div>
         </div>
-    <div class="row content">
+    <div class="content">
         <form action="" method="post" enctype="multipart/form-data" class="d-flex bg-white py-sm-3 rounded-3 container">
-            <div class="col-md-4 border-right">
-                dd
+            <div class="col-lg-4 border-right">
+                @if(!empty(Auth::guard('admin')->user()->image))
+                    <img src="{{ asset('uploads/cast/'.$cast->image) }}" class="img-thumbnail" alt="">
+                @else
+                    <img width="100" src="{{ asset('admin-assets/img/default-150x150.png') }}" class="card-img object-fit-cover rounded-circle border shadow-sm" alt="">
+                    <span class="position-absolute bi bi-"></span>
+                @endif
+                    <div id="image" class="dropzone dz-clickable">
+                        <a href="#" class="text-center dz-message needsclick" type="file">Đổi ảnh đại diện <span class="bi bi-pen-fill"></span></a>
+                    </div>
             </div>
-            <div class="col-md-7">
+            <div class="col-lg-7">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
@@ -51,14 +59,16 @@
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                         <div class="mb-3 mt-3">
-                            <label class="fs-4">Product Name</label>
+                            <label class="fs-4">Họ & Tên</label>
                             <input type="text" name="product_name" class="form-control"
-                                   value="" required>
+                                   value="{{Auth::guard('admin')->user()->name}}" required>
                         </div>
                         <div class="mb-3 mt-3">
-                            <label class="fs-4">Quantity</label>
-                            <input type="text" name="quantity" class="form-control"
-                                   value="" required>
+                            <label class="fs-4">Vai trò</label>
+                            <select name="status" id="status" class="btn btn-dark bi bi-caret-down">--}}
+                                <option {{(Auth::guard('admin')->user()->role == 1) ? 'selected' : ''}} value="1" >Quản trị viên</option>
+                                <option {{(Auth::guard('admin')->user()->role == 2) ? 'selected' : ''}} value="0" >Nhân viên</option>
+                            </select>
                         </div>
                         <div class="mb-3 mt-3">
                             <label class="fs-4">Price</label>
@@ -164,25 +174,26 @@
 @endsection
 @section('customJs')
     <script>
-        function deleteGenre(id) {
-            var url = '{{ route('cast.destroy', 'ID') }}';
-            var newUrl = url.replace("ID", id);
-
-            if (confirm("Are you sure you want to delete !!")) {
-                $.ajax({
-                    url: newUrl,
-                    type: 'delete',
-                    data: {},
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response["status"]) {
-                            window.location.href = '{{route('cast.index')}}'
-                        } else {
-
-                        }
+        Dropzone.autoDiscover = false;
+        const dropzone = $("#image").dropzone({
+            init: function () {
+                this.on('addedfile', function (file) {
+                    if (this.files.length > 1) {
+                        this.removeFile(this.files[0]);
                     }
-                });
+                })
+            },
+            url: "{{ route('cast.temp-images.create') }}",
+            maxFiles: 1,
+            paramName: 'image',
+            addRemoveLinks: true,
+            acceptedFiles: "image/jpeg,image/png,image/gif",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function (file, response){
+                $("#image_id").val(response.image_id);
+                //console.log(response)
             }
-        }
+        })
     </script>
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.customer-nav')
 @section('content')
     <head>
-        <title>Đặt lại mật khẩu</title>
+        <title>Đặt lại mật khẩu - Paradise Theatre</title>
         <link rel="stylesheet" href="{{asset('frontend/css/main.css')}}">
     </head>
     @vite(["resources/sass/app.scss", "resources/js/app.js"])

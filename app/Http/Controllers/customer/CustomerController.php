@@ -9,6 +9,9 @@ use App\Models\Genre;
 use App\Models\Movie;
 use App\Models\MovieGenre;
 use App\Models\Order;
+use App\Models\Reservation;
+use App\Models\Seat;
+use App\Models\SeatType;
 use App\Models\WishList;
 use App\Requests\StoreCustomerRequest;
 use App\Requests\UpdateCustomerRequest;
@@ -319,7 +322,19 @@ class CustomerController extends Controller
         DB::table('password_reset_tokens')->where('email', $customer->email)->delete();
         return \redirect()->route('customer.login')->with('success', 'Bạn đã cập nhật mật khẩu thành công');
     }
-//
+
+    public function orderHistory(Movie $movie, Request $request)
+    {
+        $seats = DB::table('seats')->get();
+        $id = Auth::guard('customer')->user()->id;
+        $orders = Reservation::where('customer_id', $id)->join('seats', 'reservations.seat_id', 'seats.id')->with('screening')->get();
+        $data = [];
+        $data['seats'] = $seats;
+        $data['movie'] = $movie;
+        $data['customer'] = Customer::find($id);
+        $data['orders'] = $orders;
+        return view('customer.profiles.orderHistory', $data);
+    }
 //    public function updateProfile(UpdateCustomerRequest $request)
 //    {
 //        //Lấy dữ liệu trong form và update lên db
@@ -381,32 +396,5 @@ class CustomerController extends Controller
 //            'order_total' => $orderTotal,
 //            'customer' => $customer,
 //        ]);
-//    }
-//
-//    public function editPassword()
-//    {
-//        //id cua customer dang dang nhap
-//        $id = Auth::guard('customer')->user()->id;
-//        //lay ban ghi
-//        $customer = Customer::find($id);
-//        return view('customer.profiles.changePassword', [
-//            'customer' => $customer
-//        ]);
-//    }
-//
-//    public function updatePassword(UpdateCustomerRequest $request)
-//    {
-//        $newPwd = Hash::make($request->new_pwd);
-//        $newPwd2 = $request->new_pwd2;
-//
-//        $array = [];
-//        $array = Arr::add($array, 'password', $newPwd);
-//        //id cua customer dang dang nhap
-//        $id = Auth::guard('customer')->user()->id;
-//        //lay ban ghi
-//        $customer = Customer::find($id);
-//        $customer->update($array);
-//
-//        return Redirect::route('profile')->with('success', 'Your password has been changed successfully');
 //    }
 }

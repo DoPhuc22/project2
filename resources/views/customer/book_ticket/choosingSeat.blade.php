@@ -2,14 +2,14 @@
 @section('content')
     @vite(["resources/sass/app.scss", "resources/js/app.js"])
     <head>
-        <title>Choosing Seat</title>
+        <title>Đặt vé - Paradise Theatre</title>
         <link rel="stylesheet" href="{{asset('frontend/css/main.css')}}">
         <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
     </head>
     <body style="background-color: #00001c;">
     <hr class="text-white">
 
-    <div class="text-white container mt-2"><a href="{{ route('movie') }}" class="nav-link bi bi-arrow-left ">Back</a></div>
+    <div class="text-white container mt-2"><a href="{{ route('movie') }}" class="nav-link bi bi-arrow-left btn btn-outline-danger col-1">Trở lại</a></div>
     <section class="mt-3 container">
         <div class="form row ">
             <!-- Progress bar -->
@@ -26,12 +26,12 @@
                 </div>
                 <!-- Steps -->
                 <div class="form-step form-step-active">
-                    <div class="text-center text-white fs-1">Choose seats</div>
+                    <div class="text-center text-white fs-1">Bước 2: Chọn ghế</div>
                     @php
                         $nextSeat = 1;
                         $previous = 1;
                     @endphp
-                    <form action="{{route('bookingStore', $movie)}}" id="chooseSeatForm" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('postSeat', $movie)}}" id="chooseSeatForm" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('POST')
                         <div class="col-md-12 screen" id="screen">
@@ -47,23 +47,23 @@
                                  margin: 3px;
                                  border-top-left-radius: 10px;
                                  border-top-right-radius: 10px;"></div>
-                                <small>Standard</small>
+                                <small>Ghế thường</small>
                             </li>
-                            <li>
-                                <div class="" style="background-color: #6feaf6; height: 12px;
-                                 width: 15px;
-                                 margin: 3px;
-                                 border-top-left-radius: 10px;
-                                 border-top-right-radius: 10px;"></div>
-                                <small>Selected</small>
-                            </li>
+{{--                            <li>--}}
+{{--                                <div class="" style="background-color: #6feaf6; height: 12px;--}}
+{{--                                 width: 15px;--}}
+{{--                                 margin: 3px;--}}
+{{--                                 border-top-left-radius: 10px;--}}
+{{--                                 border-top-right-radius: 10px;"></div>--}}
+{{--                                <small>Selected</small>--}}
+{{--                            </li>--}}
                             <li>
                                 <div class="" style="background-color: yellow; height: 12px;
                                  width: 15px;
                                  margin: 3px;
                                  border-top-left-radius: 10px;
                                  border-top-right-radius: 10px;"></div>
-                                <small>VIP</small>
+                                <small>Ghế VIP</small>
                             </li>
                             <li>
                                 <div class="seat occupied" style="background-color: #cf2e2e; height: 12px;
@@ -71,7 +71,7 @@
                                  margin: 3px;
                                  border-top-left-radius: 10px;
                                  border-top-right-radius: 10px;"></div>
-                                <small>Occupied</small>
+                                <small>Ghế đã bán</small>
                             </li>
                         </ul>
                         <div class="d-flex justify-content-around col-md-12">
@@ -96,11 +96,11 @@
                                                 <td>
                                                     {{-- Cái dòng quan trọng ở dưới --}}
                                                     @if ($seat->status == 2)
-                                                        <input type="checkbox"
+                                                        <input class="bg-danger" type="checkbox"
                                                                @if (in_array($seat->id, $reservedSeats->pluck('seat_id')->toArray()))
                                                                     disabled
                                                                @endif
-                                                               class="disabled" id="btn-check-{{$nextSeat}}" autocomplete="off" name="seat_id[]" value="{{$seat->id}}" data-id="{{$seat->seatType?->price}}" >
+                                                               id="btn-check-{{$nextSeat}}" autocomplete="off" name="seat_id[]" value="{{$seat->id}}" data-id="{{$seat->seatType?->price}}" >
 
                                                         <label class="btn btn-danger" for="btn-check-{{$nextSeat}}">{{ $seat->number_of_row . chr($seat->number_of_col + 64) }}</label>
 
@@ -140,7 +140,7 @@
 
                         </div>
 
-                        <button class="btn btn-primary"><a class="text-white nav-link" href="{{ route('choosingScreening', $movie) }}">Previous</a></button>
+                        <button class="btn btn-primary"><a class="text-white nav-link" href="{{ route('choosingScreening', $movie_id) }}">👈 Trở lại</a></button>
                         <span class="form-submit">
                             <button class="btn btn-primary" type="submit" id="form-submit" href="{{ 'customer.checkout' }}"><i class="material-icons mdi mdi-message-outline"></i>Proceed to checkout</button>
                         </span>
@@ -149,7 +149,7 @@
             </div>
             <div class="col-xl-4 h-100">
                 <div class="rounded pt-3 pb-5 col-xl-12 mt-5 border border-light h-10 text-white">
-                    <header class="fs-4 mx-3 fw-bold">* SEAT PRICE:</header>
+                    <header class="fs-4 mx-3 fw-bold">* GIÁ GHẾ:</header>
                     <div class="mx-3 fs-5">
                         <section class="d-flex">
                             <div class="" style="background-color: #444451; height: 12px;
@@ -157,7 +157,7 @@
                                  margin: 3px;
                                  border-top-left-radius: 10px;
                                  border-top-right-radius: 10px;"></div>
-                            <small>Standard: $10</small>
+                            <small>Ghế thường: 85.000 VND</small>
                         </section>
                         <section class="d-flex">
                             <div class="" style="background-color: yellow; height: 12px;
@@ -165,7 +165,7 @@
                                  margin: 3px;
                                  border-top-left-radius: 10px;
                                  border-top-right-radius: 10px;"></div>
-                            <small>VIP: $20</small>
+                            <small>Ghế VIP: 95.000 VND</small>
                         </section>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
                     @foreach($screening as $item)
                         @if($item->screening_end > now())
                             <div class="fs-3 mx-3">
-                                Auditorium: <span class="text-danger">{{$item->auditorium->name}}</span>
+                                Phòng chiếu: <span class="text-danger">{{$item->auditorium->name}}</span>
                             </div>
                             <div class="px-xl-5 mt-xl-2 py-sm-3 ">
                                 <h2 class="text-danger">{{ $movie->title }}</h2>

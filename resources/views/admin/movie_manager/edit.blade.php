@@ -219,7 +219,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="duration">Thời lượng</label>
-                                            <input type="text" name="duration" value="{{$movie->duration}}" id="duration" class="form-control" placeholder="Duration">
+                                            <input type="time" name="duration" value="{{$movie->duration}}" id="duration" class="form-control" placeholder="Duration">
                                         </div>
                                     </div>
                                 </div>

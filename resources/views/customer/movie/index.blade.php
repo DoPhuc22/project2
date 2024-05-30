@@ -2,7 +2,7 @@
 @section('content')
     @vite(["resources/sass/app.scss", "resources/js/app.js"])
     <head>
-        <title>Phim</title>
+        <title>Phim - Paradise Theatre</title>
         <link rel="stylesheet" href="{{asset('frontend/css/main.css')}}">
     </head>
     <body style="background-color: #00001c;">
@@ -91,7 +91,7 @@
                                     <form action="" class="d-flex mb-0" style="width: 250px">
                                         {{--                select--}}
                                         <label for="sorting" class="w-50 d-flex align-items-center justify-content-center text-white">
-                                            Sắp xếp <span class="bi bi-filter-circle-fill"></span>
+                                            Bộ lọc <span class="bi bi-filter-circle-fill"></span>
                                         </label>
                                         <select class="form-select rounded-5" id="sort" name="sort">
                                             <option>
@@ -112,10 +112,10 @@
                                     @if($movies->count() > 0)
                                         @foreach($movies as $movie)
                                             <div class="col-12 col-sm-4">
-                                                <div class="p-3 rounded rounded-4 mb-3" style=" background: linear-gradient(45deg, rgba(255,255,255, .05), rgba(205,140,56,.15));">
+                                                <div class="p-3 rounded rounded-4 mb-3">
                                                     @if(!empty($movie->image))
                                                         <div class="position-relative rounded rounded-4 overflow-hidden mb-3">
-                                                            <img src="{{ asset('uploads/movie/'.$movie->image) }}" class="card-img" alt="">
+                                                            <img src="{{ asset('uploads/movie/'.$movie->image) }}" class="card-img" style="width: 300px; height: 400px" alt="">
                                                             <div class="position-absolute text-white top-0 p-2 rounded-4 bg-dark">
                                                                 <span class="luxury-font fs-5">
                                                                     @switch($movie->age->id)
@@ -162,13 +162,13 @@
                                                     </span>
                                                     </div>
                                                     <p class="screen-name"></p>
-                                                    <div class="d-flex align-items-center justify-content-sm-center justify-content-between row ms-lg-4">
-                                                        <a href="{{ route('movie-details', $movie) }}" class="btn btn-outline-success text-white border-light-subtle col-lg-6">Chi tiết<span class="bi bi-info-circle"></span></a>
+                                                    <div class="d-flex align-items-center justify-content-sm-center justify-content-between row">
+                                                        <a href="{{ route('movie-details', $movie) }}" class="btn btn-outline-success text-white border-light-subtle col-lg-5">Chi tiết <span class="bi bi-info-circle"></span></a>
                                                         <form action="{{route('postMovie', $movie)}}" method="POST" enctype="multipart/form-data" class="col-lg-6 mt-3">
                                                             @csrf
                                                             @method('POST')
                                                             <input type="hidden" name="id" value="{{$movie->id}}">
-                                                            <button class="btn btn-outline-danger text-white border-white ">Đặt vé</button>
+                                                            <button class="btn btn-outline-danger text-white border-white ">Đặt vé <span class="bi bi-ticket-perforated"></span></button>
                                                         </form>
                                                     </div>
                                                 </div>

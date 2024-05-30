@@ -1,7 +1,7 @@
 @extends('layouts.admin-navbar')
 @section('content')
     <section class="content-header">
-        <div class="container-fluid my-2">
+        <div class="my-2">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>Thêm phim mới</h1>
@@ -194,7 +194,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="duration">Thời lượng</label>
-                                        <input type="text" name="duration" id="duration" class="form-control" placeholder="Duration">
+                                        <input type="time" name="duration" id="duration" class="form-control" placeholder="Duration">
                                     </div>
                                 </div>
                             </div>

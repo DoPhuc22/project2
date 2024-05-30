@@ -1,10 +1,8 @@
-
-
 @extends('layouts.customer-nav')
 @section('content')
     @vite(["resources/sass/app.scss", "resources/js/app.js"])
     <head>
-        <title>Movie</title>
+        <title>Thanh toán - Paradise Theatre</title>
         <link rel="stylesheet" href="{{asset('frontend/css/main.css')}}">
     </head>
     <body style="background-color: #00001c;">
@@ -20,8 +18,8 @@
             <div class="container">
                 <div>
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a class="text-white nav-link" href="{{ route('home') }}">Home</a></li>
-                        <li class="bi bi-slash-lg text-white">Movie</li>
+                        <li class="breadcrumb-item"><a class="text-white nav-link" href="{{ route('home') }}">Trang chủ</a></li>
+                        <li class="bi bi-slash-lg text-white">Thanh toán</li>
                     </ol>
                 </div>
             </div>
@@ -73,8 +71,8 @@
                                                 </div>
 
                                                 <div class="col-md-4 text-white">
-                                                    Seat: @foreach ($seats as $seat)
-                                                        {{ $seat->number_of_row . chr($seat->number_of_col + 64) }}
+                                                    Seat: @foreach ($order as $item)
+                                                        {{ $item->number_of_row . chr($item->number_of_col + 64) }}
                                                     @endforeach
                                                 </div>
 
@@ -100,16 +98,15 @@
                                                 {{-- <div class="h6">Price</div> --}}
                                             </div>
                                             <div class="d-flex justify-content-between pb-2">
-                                                <div class="h6">
+                                                <div class="h6 d-block">
                                                     @foreach ($seatTypes as $seatType)
-                                                        {{ $seatType->name . ' x ' . $seatType->id}}
+                                                        {{ $seatType->name . ' x ' . $seatType->id}},
                                                     @endforeach
-
                                                 </div>
                                                 {{-- <div class="h6">$100</div> --}}
                                                 <div class="h6">
                                                     @foreach ($seatTypes as $seatType)
-                                                        {{ $seatType->totalPrice}}
+                                                        {{ $seatType->totalPrice}},
                                                     @endforeach
                                                 </div>
                                             </div>
@@ -136,7 +133,7 @@
                                             </div>
                                         </div>
                                         <div class="pt-4">
-                                            <form action="{{route('vnpay_payment')}}" method="POST"  enctype="multipart/form-data">
+                                            <form action="{{url('/account/vnpay_payment')}}" method="POST" >
                                                 @csrf
                                                 <input type="hidden" name="totalMoney" value="{{$totalMoney}}">
                                                 <input type="hidden" name="movie" value="{{$movie}}">
@@ -153,7 +150,7 @@
                                                 <button type="submit" name="redirect" class="btn-dark btn btn-block w-100">Pay Now</button>
                                             </form>
                                             <button type="submit" name="previous" class="btn-dark btn btn-block w-100">
-                                                <a class="text-white nav-link" href="{{ route('choosingScreening', $movie) }}">Previous</a>
+{{--                                                <a class="text-white nav-link" href="{{ route('choosingSeat', $movie_id) }}">Previous</a>--}}
                                             </button>
                                             {{--//Movie, Screening, Customer(id , phone number), seat--}}
 

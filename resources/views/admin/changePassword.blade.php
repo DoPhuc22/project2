@@ -4,10 +4,10 @@
         <div class="container-fluid my-2">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Change Password</h1>
+                    <h1>Thay đổi mật khẩu</h1>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a href="{{route('admin.dashboard')}}" class="btn btn-primary">Back</a>
+                    <a href="{{route('admin.dashboard')}}" class="btn btn-primary">Trở lại</a>
                 </div>
             </div>
         </div>
@@ -24,21 +24,21 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3 col-md-6">
-                                    <label for="name">Old Password</label>
+                                    <label for="name">Mật khẩu cũ</label>
                                     <input type="password" name="old_password" id="old_password" class="form-control" placeholder="Old Password">
                                     <p></p>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3 col-md-6">
-                                    <label for="name">New Password</label>
+                                    <label for="name">Mật khẩu mới</label>
                                     <input type="password" name="new_password" id="new_password" class="form-control" placeholder="New Password">
                                     <p></p>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3 col-md-6">
-                                    <label for="name">Confirm new password</label>
+                                    <label for="name">Nhập lại mật khẩu mới</label>
                                     <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Re-enter New Password">
                                     <p></p>
                                 </div>
@@ -47,8 +47,8 @@
                     </div>
                 </div>
                 <div class="pb-5 pt-3">
-                    <button class="btn btn-primary" type="submit">Update</button>
-                    <a href="{{ route('admin.dashboard')  }}" class="btn btn-outline-dark ml-3">Cancel</a>
+                    <button class="btn btn-primary" type="submit">Cập nhật</button>
+                    <a href="{{ route('admin.dashboard')  }}" class="btn btn-outline-dark ml-3">Hủy</a>
                 </div>
             </form>
         </div>

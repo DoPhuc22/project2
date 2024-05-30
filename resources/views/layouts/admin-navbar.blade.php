@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{asset('admin-assets/plugins/dropzone/min/dropzone.min.css')}}">
     <link rel="stylesheet" href="{{asset('admin-assets/plugins/summernote/summernote.min.css')}}">
     <!-- Theme style -->
+    <link rel="shortcut icon" href="{{asset('admin-assets/img/paradise-theatre-logo.png')}}"/>
     <link rel="stylesheet" href="{{asset('admin-assets/css/adminlte.min.css')}}">
     <link rel="stylesheet" href="{{asset('admin-assets/css/custom.css')}}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -70,7 +71,7 @@
     </nav>
     <!-- /.navbar -->
 
-    <aside class="main-sidebar sidebar-dark-primary elevation-5" style="background-color: #00001c">
+    <aside class="main-sidebar sidebar-dark-primary elevation-5 " style="background-color: #00001c; height: 100%">
         <!-- Brand Logo -->
         <a href="#" class="brand-link">
             <img src="{{asset('admin-assets/img/paradise-theatre-logo.png')}}" alt="AdminLTE Logo"
@@ -178,13 +179,13 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link p-3 pr-3 col-md-12 d-flex" data-toggle="dropdown" href="#">
                             <div class="col-4"><img src="{{asset('admin-assets/img/avatar5.png')}}" class='img-circle elevation-2' width="40" height="40" alt=""></div>
-                            <div class="pl-3 col-8">
+                            <div class="pl-3 col-12">
                                 <span  class="col-12 fs-5">{{ Auth::guard('admin')->user()->name }}</span>
                                 <span class="col-12">
                                     @if( Auth::guard('admin')->user()->role == 1 )
                                         <div class="pl-2 text-success">Quản trị viên</div>
                                     @else
-                                        <div>Employee</div>
+                                        <div class="pl-2 text-success">Nhân viên</div>
                                     @endif
                                 </span>
                             </div>
@@ -221,12 +222,11 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        @yield('content')
+            @yield('content')
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    <footer class="main-footer">
-
+    <footer class="main-footer footer">
         <strong>Copyright &copy; Paradise Theatre by Phuc & Huy</strong>
     </footer>
 

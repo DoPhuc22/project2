@@ -2,7 +2,7 @@
 @section('content')
     @vite(["resources/sass/app.scss", "resources/js/app.js"])
     <head>
-        <title>Trang chủ</title>
+        <title>Trang chủ - Paradise Theatre</title>
         <link rel="stylesheet" href="{{asset('frontend/css/main.css')}}">
     </head>
     <body style="background-color: #00001c;; box-sizing: border-box" data-instant-intensity="mousedown">
@@ -19,7 +19,7 @@
                 </span>
                 <button class="btn">
                     <a class="fade-in fade-bottom nav-link fs-4 d-flex text-white btn btn-danger" href="{{route('movie')}}">
-                        Xem nhiều phim hơn<span class="bi bi-incognito p-2"></span>
+                        Đặt vé ngay<span class="bi bi-incognito p-2"></span>
                     </a>
                 </button>
             </div>
@@ -248,19 +248,19 @@
                                             <span class="bi bi-dot">{{$movie->duration}}</span>
                                         </p>
                                         <p class="card-subtitle">
-                                            <span class="text-white-50">Language: </span>
+                                            <span class="text-white-50">Ngôn ngữ: </span>
                                             {{$movie->language}}
                                         </p>
                                         <p class="card-body">
-                                            <span class="text-white-50">Director: </span>
+                                            <span class="text-white-50">Đạo diễn: </span>
                                             {{$movie->director}}
                                         </p>
-                                        <a href="javascript:void(0);" onclick="addToWishList({{ $movie->id }})" class="watch-btn nav-link whishlist">add to my list</a>
+                                        <a href="javascript:void(0);" onclick="addToWishList({{ $movie->id }})" class="watch-btn nav-link whishlist">Thêm vào yêu thích</a>
                                         <form action="{{route('postMovie', $movie)}}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                             @method('POST')
                                             <input type="hidden" name="id" value="{{$movie->id}}">
-                                            <button class="text-white col-lg-12 watch-btn">Book tickets</button>
+                                            <button class="text-white col-lg-12 watch-btn">Đặt vé</button>
                                         </form>
                                     </div>
                                     <div class="card-body h-100 pt-1 h-25">

@@ -98,10 +98,10 @@ Route::group(['prefix' => 'account'], function () {
         Route::post('/process-change-password', [\App\Http\Controllers\customer\CustomerController::class, 'changePassword'])->name('customer.process_change_password');
         Route::get('/logout', [\App\Http\Controllers\customer\CustomerController::class, 'logout'])->name('customer.logout');
         Route::get('choosingSeat/{movie_id}',[BookingController::class,'choosingSeat'])->name('choosingSeat');
-        Route::post('postSeat/{movie_id}',[BookingController::class,'bookingStore'])->name('bookingStore');
-
+        Route::post('postSeat/{movie_id}',[BookingController::class,'postSeat'])->name('postSeat');
+        Route::get('order-history', [\App\Http\Controllers\customer\CustomerController::class, 'orderHistory'])->name('customer.orderHistory');
         Route::get('/checkout/{movie_id}', [BookingController::class, 'checkout'])->name('customer.checkout');
-        Route::post('/vnpay_payment',[BookingController::class,'vnpay_payment'])->name('vnpay_payment');
+        Route::post('/vnpay_payment',[BookingController::class,'vnpay_payment']);
     });
 });
 

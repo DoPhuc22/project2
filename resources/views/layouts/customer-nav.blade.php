@@ -34,6 +34,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('customer-assets/css/slick-theme.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{asset('customer-assets/css/video-js.css')}}" />
 
+<link rel="shortcut icon" href="{{asset('admin-assets/img/paradise-theatre-logo.png')}}"/>
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -142,28 +143,50 @@
     @yield('content')
 </div>
 <footer class="bg-dark mt-5">
-    <div class="container-xxl pb-5 pt-3 backgroundEffect position-relative">
-        <div class="row justify-content-sm-center col-12 text-sm-center">
+    <div class="pb-5 pt-3 container backgroundEffect position-relative">
+        <div class="row justify-content-sm-center col-12">
             <div class="col-md-3">
                 <div class="footer-card text-white">
                     <img src="{{asset('admin-assets/img/paradise-theatre-logo.png')}}" alt="brand"
-                         height="110" class="rounded">
+                         height="110" class="rounded img-fluid">
                 </div>
             </div>
 
             <div class="col-md-3">
                 <div class="footer-card text-white bd-lead">
-                    <h3>Liên lạc</h3>
-                    <p>No dolore ipsum accusam no lorem. <br>
-                        123 Street, New York, USA <br>
+                    <h3>Chăm sóc khách hàng</h3>
+                    <div style="
+                    display: block;
+                    width: 117px;
+                    height: 12px;
+                    border-radius: 20px;
+                    border: 1px solid #90C63F;
+                    background: linear-gradient(180deg, #50B648 0%, #90C63F 59.90%, #B2EC0F 99.48%);
+                    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.10);
+                    margin-top: 16px;
+                    margin-bottom: 16px;
+                    "></div>
+                    <p>Hotline: 19001296 <br>
+                        Giờ làm việc: 9:00 - 22:00 (Tất cả các ngày bao gồm cả Lễ, Tết)                                  <br>
                         phucsonmai999@gmail.com <br>
                         012 345 6789</p>
                 </div>
             </div>
 
-            <div class="col-lg-3">
+            <div class="col-md-4">
                 <div class="footer-card text-white">
-                    <h3>Đường dẫn quan trọng</h3>
+                    <h3>Quy định & Điều khoản</h3>
+                    <div style="
+                    display: block;
+                    width: 117px;
+                    height: 12px;
+                    border-radius: 20px;
+                    border: 1px solid #90C63F;
+                    background: linear-gradient(180deg, #50B648 0%, #90C63F 59.90%, #B2EC0F 99.48%);
+                    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.10);
+                    margin-top: 16px;
+                    margin-bottom: 16px;
+                    "></div>
                     <ul class="nav flex-column">
                         <li><a class="text-decoration-none link-light" href="{{ route('about') }}" title="About">Về chúng tôi</a></li>
                         <li><a class="text-decoration-none link-light" href="{{ route('contact_us') }}" title="Contact Us">Liên hệ</a></li>
@@ -173,9 +196,20 @@
                 </div>
             </div>
 
-            <div class="col-xl-3">
+            <div class="col-xl-2">
                 <div class="footer-card text-white">
                     <h3>Tài khoản</h3>
+                    <div style="
+                    display: block;
+                    width: 117px;
+                    height: 12px;
+                    border-radius: 20px;
+                    border: 1px solid #90C63F;
+                    background: linear-gradient(180deg, #50B648 0%, #90C63F 59.90%, #B2EC0F 99.48%);
+                    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.10);
+                    margin-top: 16px;
+                    margin-bottom: 16px;
+                    "></div>
                     <ul class="nav flex-column">
                         <li><a class="text-decoration-none link-light" href="{{route('profile')}}" title="Login">Đăng nhập</a></li>
                         <li><a class="text-decoration-none link-light" href="#" title="Contact Us">Vé đã đặt</a></li>

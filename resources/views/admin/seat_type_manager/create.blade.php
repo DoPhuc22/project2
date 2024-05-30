@@ -30,7 +30,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="price">Giá</label>
-                                    <input type="number" name="price" max="120" min="80" id="price" class="form-control" placeholder="price">
+                                    <input type="number" name="price" min="80" id="price" class="form-control" placeholder="price">
                                 </div>
                             </div>
                         </div>

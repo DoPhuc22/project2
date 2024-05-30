@@ -1,6 +1,6 @@
 <div class="text-center">
     Hello, <br>
-    <span class="fs-5">{{$customer->first_name}} {{$customer->last_name}}</span>
+    <span class="fs-5"></span>
 </div>
 <hr>
 <div>
@@ -11,8 +11,8 @@
             </a>
         </li>
         <li class="py-2">
-{{--            <a href="{{route('orderHistory')}}" class="text-decoration-none text-dark {{ request()->routeIs('orderHistory') ? 'fw-bold' : '' }}">--}}
-                <i class="bi bi-file-text me-3 text-success"></i> <span class="{{ request()->routeIs('') ? 'fw-bolder text-danger' : '' }}">Lịch sử đặt vé</span>
+            <a href="{{route('customer.orderHistory')}}" class="text-decoration-none nav-link">
+                <i class="bi bi-file-text me-3 text-success"></i> <span class="{{ request()->routeIs('customer.orderHistory') ? 'fw-bolder text-danger' : '' }}">Lịch sử đặt vé</span>
             </a>
         </li>
         <li class="py-2">
