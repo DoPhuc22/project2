@@ -44,7 +44,12 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link p-0 pr-3" data-toggle="dropdown" href="#">
-                    <img src="{{asset('admin-assets/img/avatar5.png')}}" class='img-circle elevation-2' width="40" height="40" alt="">
+                    @if(!empty(Auth::guard('admin')->user()->image))
+                        <img src="{{ asset('uploads/user/'.Auth::guard('admin')->user()->image) }}" class='img-circle elevation-2' width="40" height="40" alt="">
+                    @else
+                        <img src="{{ asset('admin-assets/img/default-150x150.png') }}" class='img-circle elevation-2' width="40" height="40" alt="">
+                        <span class="position-absolute bi bi-"></span>
+                    @endif
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-3">
                         <h4 class="h4 mb-0"><strong>{{Auth::guard('admin')->user()->name}}</strong></h4>
@@ -89,27 +94,27 @@
                     <li class="nav-item">
                         <a href="{{route('admin.dashboard')}}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'bg-danger' : '' }}" aria-current="page">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
-                            <p>Tổng quát</p>
+                            <p>Thống kê</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link d-flex" aria-current="page">
-                            <i class="nav-icon fas bi-window"></i>
-                            <button class="accordion-button collapsed ml-2 fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                Quản lý
-                            </button>
-                        </a>
-                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
-                                <div class="accordion-body">
-                                    <div class="navbar-nav ml-5">
+{{--                    <li class="nav-item">--}}
+{{--                        <a href="#" class="nav-link d-flex" aria-current="page">--}}
+{{--                            <i class="nav-icon fas bi-window"></i>--}}
+{{--                            <button class="accordion-button collapsed ml-2 fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">--}}
+{{--                                Quản lý--}}
+{{--                            </button>--}}
+{{--                        </a>--}}
+{{--                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">--}}
+{{--                                <div class="accordion-body">--}}
+{{--                                    <div class="navbar-nav ml-5">--}}
 {{--                                        <a href="{{route('admin.dashboard')}}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'bi bi-arrow-right bg-danger' : '' }}" class="nav-item nav-link">Employee</a>--}}
-                                        <a href="" class="nav-item nav-link">Speakers</a>
-                                        <a href="" class="nav-item nav-link">Watches</a>
-                                    </div>
-                                </div>
-                            </div>
+{{--                                        <a href="" class="nav-item nav-link">Speakers</a>--}}
+{{--                                        <a href="" class="nav-item nav-link">Watches</a>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
-                    </li>
+{{--                    </li>--}}
                     <li class="nav-item">
                         <a href="{{route('genre.index')}}" class="nav-link {{ request()->routeIs('genre.index', 'genre.create', 'genre.edit') ? 'bg-danger' : '' }}">
                             <svg class="h-6 nav-icon w-6 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -174,45 +179,6 @@
                     </li>
                 </ul>
             </nav>
-            <div class="fixed-botto">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link p-3 pr-3 col-md-12 d-flex" data-toggle="dropdown" href="#">
-                            <div class="col-4"><img src="{{asset('admin-assets/img/avatar5.png')}}" class='img-circle elevation-2' width="40" height="40" alt=""></div>
-                            <div class="pl-3 col-12">
-                                <span  class="col-12 fs-5">{{ Auth::guard('admin')->user()->name }}</span>
-                                <span class="col-12">
-                                    @if( Auth::guard('admin')->user()->role == 1 )
-                                        <div class="pl-2 text-success">Quản trị viên</div>
-                                    @else
-                                        <div class="pl-2 text-success">Nhân viên</div>
-                                    @endif
-                                </span>
-                            </div>
-                            <span class="text-end col-4"></span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-lg pl-5">
-                            <div class="d-flex col-12">
-                                <a href="{{ route('admin.profile') }}" class="dropdown-item col-6 text-dark {{ request()->routeIs('admin.profile') ? 'bg-danger rounded-4' : '' }}">
-                                    <i class="fas fa-user mr-2"></i> Tài khoản
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item col-6 text-dark">
-                                    <i class="fas fa-user-cog mr-2"></i> Cài đặt
-                                </a>
-                            </div>
-                            <div class="col-12">
-                                <a href="{{ route('change_password') }}" class="dropdown-item col-12 text-dark {{ request()->routeIs('change_password') ? 'bg-danger rounded-4' : '' }}">
-                                    <i class="fas fa-lock mr-2"></i> Đổi mật khẩu
-                                </a>
-                                <a href="{{route('admin.logout')}}" class="dropdown-item col-6 text-danger">
-                                    <i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
             <!-- /.sidebar-menu -->
         </div>
 
@@ -220,7 +186,7 @@
     </aside>
     <!-- Main Sidebar Container -->
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+    <div class="content-wrappers" style="margin-left: 250px">
         <!-- Content Header (Page header) -->
             @yield('content')
         <!-- /.content -->

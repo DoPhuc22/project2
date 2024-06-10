@@ -20,23 +20,24 @@
                 <div class="card mt-5">
                     <div class="card-header">
                         <h3>Tài khoản
-                            <a href="" class="btn btn-danger btn-sm text-white float-end">Trở lại</a>
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-danger btn-sm text-white float-end">Trở lại</a>
                         </h3>
                     </div>
                 </div>
             </div>
         </div>
     <div class="content">
-        <form action="" method="post" enctype="multipart/form-data" class="d-flex bg-white py-sm-3 rounded-3 container">
+        <form action="" id="editUserForm" method="post" enctype="multipart/form-data" class="d-flex bg-white py-sm-3 rounded-3 container border">
             <div class="col-lg-4 border-right">
-                @if(!empty(Auth::guard('admin')->user()->image))
-                    <img src="{{ asset('uploads/cast/'.$cast->image) }}" class="img-thumbnail" alt="">
-                @else
-                    <img width="100" src="{{ asset('admin-assets/img/default-150x150.png') }}" class="card-img object-fit-cover rounded-circle border shadow-sm" alt="">
-                    <span class="position-absolute bi bi-"></span>
-                @endif
+                    @if(!empty(Auth::guard('admin')->user()->image))
+                        <img src="{{ asset('uploads/user/'.Auth::guard('admin')->user()->image) }}" class="card-img object-fit-cover rounded-circle border shadow-sm" alt="">
+                    @else
+                        <img width="100" src="{{ asset('admin-assets/img/default-150x150.png') }}" class="card-img object-fit-cover rounded-circle border shadow-sm" alt="">
+                        <span class="position-absolute bi bi-"></span>
+                    @endif
+                    <input type="hidden" id="image_id" name="image_id" value="">
                     <div id="image" class="dropzone dz-clickable">
-                        <a href="#" class="text-center dz-message needsclick" type="file">Đổi ảnh đại diện <span class="bi bi-pen-fill"></span></a>
+                        <div href="#" class="text-center dz-message needsclick" type="file">Đổi ảnh đại diện <span class="bi bi-pen-fill"></span></div>
                     </div>
             </div>
             <div class="col-lg-7">
@@ -60,25 +61,30 @@
                     <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                         <div class="mb-3 mt-3">
                             <label class="fs-4">Họ & Tên</label>
-                            <input type="text" name="product_name" class="form-control"
-                                   value="{{Auth::guard('admin')->user()->name}}" required>
+                            <input type="text" name="name" class="form-control" id="name"
+                                   value="{{Auth::guard('admin')->user()->name}}">
+                            <p></p>
                         </div>
                         <div class="mb-3 mt-3">
                             <label class="fs-4">Vai trò</label>
-                            <select name="status" id="status" class="btn btn-dark bi bi-caret-down">--}}
-                                <option {{(Auth::guard('admin')->user()->role == 1) ? 'selected' : ''}} value="1" >Quản trị viên</option>
-                                <option {{(Auth::guard('admin')->user()->role == 2) ? 'selected' : ''}} value="0" >Nhân viên</option>
-                            </select>
+                            <div id="status" class="btn btn-secondary">
+                                @if(Auth::guard('admin')->user()->role == 1)
+                                    <span class="text-success">Quản trị viên</span>
+                                @else
+                                    <span class="text-warning">Nhân viên</span>
+                                @endif
+                            </div>
                         </div>
                         <div class="mb-3 mt-3">
-                            <label class="fs-4">Price</label>
-                            <input type="text" name="price" class="form-control"
-                                   value="" required>
+                            <label class="fs-4">Email</label>
+                            <input type="email" name="email" class="form-control" id="email"
+                                   value="{{ Auth::guard('admin')->user()->email }}">
+                            <p></p>
                         </div>
                         <div class="mb-3 mt-3">
-                            <label class="fs-4">Description</label>
-                            <textarea type="text" name="description" class="form-control" rows="4"
-                            ></textarea>
+                            <label class="fs-4">Số điện thoại</label>
+                            <input type="number" name="phone_number" class="form-control" id="phone_number"
+                                   value="{{ Auth::guard('admin')->user()->phone_number }}">
                         </div>
                     </div>
                     <div class="tab-pane fade" id="detail-tab-pane" role="tabpanel" aria-labelledby="detail-tab" tabindex="0">
@@ -86,17 +92,17 @@
                             <div class="mb-3 mt-3">
                                 <label class="fs-4">Product Name</label>
                                 <input type="text" name="product_name" class="form-control"
-                                       value="" required>
+                                       value="" >
                             </div>
                             <div class="mb-3 mt-3">
                                 <label class="fs-4">Quantity</label>
                                 <input type="text" name="quantity" class="form-control"
-                                       value="" required>
+                                       value="" >
                             </div>
                             <div class="mb-3 mt-3">
                                 <label class="fs-4">Price</label>
                                 <input type="text" name="price" class="form-control"
-                                       value="" required>
+                                       value="" >
                             </div>
                             <div class="mb-3 mt-3">
                                 <label class="fs-4">Description</label>
@@ -108,72 +114,55 @@
                 </div>
             </div>
             <div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
             </div>
         </form>
     </div>
-    <section class="content">
-        <!-- Default box -->
-        <div class="container-fluid">
-            <form action="" method="post" id="editCastForm" name="editCastForm">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="name">Họ & Tên</label>
-                                    <input value="{{Auth::guard('admin')->user()->name}}" type="text" name="name" id="name" class="form-control" placeholder="Name">
-                                    <p></p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="name">Vai trò</label>
-                                    <select name="status" id="status" class="btn btn-dark bi bi-caret-down">--}}
-                                        <option {{(Auth::guard('admin')->user()->role == 1) ? 'selected' : ''}} value="1" >Quản trị viên</option>
-                                        <option {{(Auth::guard('admin')->user()->role == 2) ? 'selected' : ''}} value="0" >Nhân viên</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <input type="hidden" id="image_id" name="image_id" value="">
-                                    <label for="image">Ảnh</label>
-                                    <div id="image" class="dropzone dz-clickable">
-                                        <div class="dz-message needsclick">
-                                            <br>Thả tập tin vào đây hoặc bấm vào để tải lên
-                                        </div>
-                                    </div>
-                                </div>
-{{--                                @if(!empty($cast->image))--}}
-{{--                                    <div>--}}
-{{--                                        <img width="250" src="{{ asset('uploads/cast/'.$cast->image) }}" alt="">--}}
-{{--                                    </div>--}}
-{{--                                @endif--}}
-                            </div>
-                            <div class="col-md-1">
-                                <div class="mb-3">
-                                    <label for="status">Trạng thái</label>
-                                    <select name="status" id="status" class="btn btn-dark bi bi-caret-down">
-                                        <option {{(Auth::guard('admin')->user()->status == 1) ? 'selected' : ''}} value="1" >Hoạt động</option>
-                                        <option {{(Auth::guard('admin')->user()->status == 2) ? 'selected' : ''}} value="0" >Không hoạt động</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-{{--                <div class="pb-5 pt-3">--}}
-{{--                    <button class="btn btn-primary" type="submit">Update</button>--}}
-{{--                    <a href="{{route('cast.index')}}" class="btn btn-outline-dark ml-3">Cancel</a>--}}
-{{--                </div>--}}
-            </form>
-        </div>
-        <!-- /.card -->
-    </section>
 @endsection
 @section('customJs')
     <script>
+        $("#editUserForm").submit(function (event){
+            event.preventDefault();
+            var element = $(this);
+            $("button[type=submit]").prop('disabled', true)
+            $.ajax({
+                url: '{{route('user.update')}}',
+                type: 'post',
+                data: element.serializeArray(),
+                dataType: 'json',
+                success: function (response){
+                    $("button[type=submit]").prop('disabled', false)
+
+                    if (response["status"] === true){
+                        window.location.href='{{route('admin.dashboard')}}';
+
+                        $("#name").removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("");
+                        $("#email").removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("");
+                    }else {
+                        if (response['notFound'] == true){
+                            window.location.href = "{{ route('admin.profile') }}";
+                        }
+
+                        var errors = response['errors'];
+                        if (errors['name']){
+                            $("#name").addClass('is-invalid').siblings('p').addClass('invalid-feedback').html(errors['name']);
+                        }else {
+                            $("#name").removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("");
+                        }
+
+                        if (errors['email']){
+                            $("#email").addClass('is-invalid').siblings('p').addClass('invalid-feedback').html(errors['email']);
+                        }else {
+                            $("#email").removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("");
+                        }
+                    }
+
+                }, error: function (jqXHR, exception){
+                    console.log("Something went wrong");
+                }
+            })
+        })
+
         Dropzone.autoDiscover = false;
         const dropzone = $("#image").dropzone({
             init: function () {
@@ -183,7 +172,7 @@
                     }
                 })
             },
-            url: "{{ route('cast.temp-images.create') }}",
+            url: "{{ route('user.temp-images.create') }}",
             maxFiles: 1,
             paramName: 'image',
             addRemoveLinks: true,

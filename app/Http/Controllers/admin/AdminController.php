@@ -52,126 +52,49 @@ class AdminController extends Controller
         return view('admin.profile.profile');
     }
 
-    public function index2(Request $request)
+    public function update(Request $request)
     {
-        $users = User::latest();
-        if (!empty($request->get('keyword'))){
-            $users = $users->where('name', 'like', '%'.$request->get('keyword').'%' );
-        }
-        $users = User::paginate(11);
-        return view('admin.user_manager.index', [
-            'users' => $users,
+        $userId = Auth::guard('admin')->user()->id;
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:2',
+            'email' => 'required|email|unique:users,email,'.$userId.',id',
         ]);
-    }
-
-    public function create()
-    {
-        return view('admin.user_manager.create');
-    }
-
-    public function store(Request $request)
-    {
-        $rules = [
-            'name' => 'required',
-            'phone_number' => 'required',
-            'role' => 'required',
-            'email' => 'required',
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->passes()){
-            $user = new User();
+        if ($validator -> passes()){
+            $user = User::find($userId);
             $user->name = $request->name;
-            $user->phone_number = $request->phone_number;
             $user->email = $request->email;
-            $user->role = $request->role;
-            $user->password = $request->password;
+            $user->phone_number = $request->phone_number;
             $user->save();
-            // Save Image Here
+            $oldImage = $user->image;
+            //             Save Image Here
             if (!empty($request->image_id)) {
                 $tempImage = TempImage::find($request->image_id);
                 $extArray = explode('.', $tempImage->name);
                 $ext = last($extArray);
-                $newImageName = $user->id.'.'.$ext;
+
+                $newImageName = $user->id.'-'.time().'.'.$ext;
                 $sPath = public_path().'/temp/'.$tempImage->name;
                 $dPath = public_path().'/uploads/user/'.$newImageName;
                 File::copy($sPath, $dPath);
+
+                // Generate Image Thumbnail
+//                $dPath = public_path().'/uploads/cast/thumb/'.$newImageName;
+//                $img = Image::make($sPath);
+//                $img->resize(450, 600);
+//                $img->save($dPath);
+
                 $user->image = $newImageName;
                 $user->save();
+
+                // DELETE old image here
+                File::delete(public_path().'/temp/'.$oldImage);
+                File::delete(public_path().'/uploads/user/'.$oldImage);
             }
-
-            $request->session()->flash('success', 'User added successfully');
+            $request->session()->flash('success', 'Hồ sơ được cập nhật thành công');
             return response()->json([
                 'status' => true,
-                'message' => 'User added successfully'
+                'message' => 'Hồ sơ được cập nhật thành công'
             ]);
-
-        }else{
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors()
-            ]);
-        }
-    }
-
-    public function edit($userID, Request $request)
-    {
-        $user = User::find($userID);
-        if (empty($user)){
-            $request->session()->flash('error', 'User not found');
-            return redirect()->route('User.index');
-        }
-        $data['user'] = $user;
-        return view('admin.user_manager.edit', $data);
-    }
-
-    public function update($userID, Request $request)
-    {
-        $user = User::find($userID);
-        if (empty($user)){
-            $request->session()->flash('error', 'User not found');
-
-            return response()->json([
-               'status' => false,
-               'notFound' => true,
-                'message' => 'User not found'
-            ]);
-        }
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'phone_number' => 'required',
-            'role' => 'required',
-            'email' => 'required',
-        ]);
-        if ($validator->passes()){
-            $user->name = $request->name;
-            $user->phone_number = $request->phone_number;
-            $user->email = $request->email;
-            $user->role = $request->role;
-            $user->password = $request->password;
-            $user->save();
-
-                // Save Image Here
-                if (!empty($request->image_id)) {
-                    $tempImage = TempImage::find($request->image_id);
-                    $extArray = explode('.', $tempImage->name);
-                    $ext = last($extArray);
-                    $newImageName = $user->id.'.'.$ext;
-                    $sPath = public_path().'/temp/'.$tempImage->name;
-                    $dPath = public_path().'/uploads/user/'.$newImageName;
-                    File::copy($sPath, $dPath);
-                    $user->image = $newImageName;
-                    $user->save();
-                }
-
-            $request->session()->flash('success', 'User updated successfully');
-            return response()->json([
-                'status' => true,
-                'message' => 'User updated successfully'
-            ]);
-
         }else{
             return response()->json([
                 'status' => false,

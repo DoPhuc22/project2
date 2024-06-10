@@ -152,7 +152,7 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="footer-card text-white bd-lead">
                     <h3>Chăm sóc khách hàng</h3>
                     <div style="
@@ -173,7 +173,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="footer-card text-white">
                     <h3>Quy định & Điều khoản</h3>
                     <div style="

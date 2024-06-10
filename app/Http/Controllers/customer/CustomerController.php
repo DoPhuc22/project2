@@ -156,6 +156,7 @@ class CustomerController extends Controller
             $customer->address = $request->address;
             $customer->save();
 
+
             session()->flash('success', 'Hồ sơ được cập nhật thành công');
             return response()->json([
                 'status' => true,
