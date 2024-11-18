@@ -90,7 +90,7 @@ class HomeController extends Controller
                 'mail_subject' => 'Bạn đã nhận được email liên hệ'
             ];
 
-            $admin = User::where('id', 1)->first();
+            $admin = User::where('id', 3)->first();
             Mail::to($admin->email)->send(new ContactEmail($mailData));
             session()->flash('success', 'Cảm ơn bạn đã liên hệ với chúng tôi, chúng tôi sẽ sớm liên hệ lại với bạn.');
             return response()->json([

@@ -11,8 +11,8 @@
             </a>
         </li>
         <li class="py-2">
-            <a href="{{route('customer.orderHistory')}}" class="text-decoration-none nav-link">
-                <i class="bi bi-file-text me-3 text-success"></i> <span class="{{ request()->routeIs('customer.orderHistory') ? 'fw-bolder text-danger' : '' }}">Lịch sử đặt vé</span>
+            <a href="{{route('orderHistory')}}" class="text-decoration-none nav-link">
+                <i class="bi bi-file-text me-3 text-success"></i> <span class="{{ request()->routeIs('orderHistory') ? 'fw-bolder text-danger' : '' }}">Lịch sử đặt vé</span>
             </a>
         </li>
         <li class="py-2">

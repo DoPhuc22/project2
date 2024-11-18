@@ -12,12 +12,16 @@ class Reservation extends Model
         'seat_id',
         'reservation_contact',
         'date',
+        'seat_id',
         'status',
         'customer_id',
+        'pay_id',
+        'user_id',
+        'payment_amount',
+        'payment_date',
         'created_at',
         'updated_at'
     ];
-    public $timestamps = false;
     public function screening(){
         return $this -> belongsTo(Screening::class);
     }

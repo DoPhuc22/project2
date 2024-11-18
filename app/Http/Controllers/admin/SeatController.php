@@ -13,11 +13,11 @@ class SeatController extends Controller
 {
     public function index(Request $request){
         $seats = Seat::orderBy('number_of_col','desc')->orderBy('id','desc');
-        if (!empty($seats->get('number_of_col'))){
-            $seats = $seats->where('number_of_row', 'like', '%'.$request->get('keyword').'%' )
-            ->orWhere('type_id', 'like', '%'.$request->get('keyword').'%' );
+        if (!empty($seats->get('number_of_col'))) {
+            $seats = $seats->where('number_of_row', 'like', '%' . $request->get('keyword') . '%')
+                ->orWhere('type_id', 'like', '%' . $request->get('keyword') . '%');
         }
-        $seats = $seats->paginate(10);
+        $seats = $seats->paginate(18);
 
         return view('admin.seat_manager.index', ['seats' => $seats]);
     }
@@ -36,7 +36,16 @@ class SeatController extends Controller
         ]);
         $id = $request->auditorium_id;
         $auditorium = Auditorium::find($id);
+        $existingSeats = Seat::where('auditorium_id', $id)->count();
+        if($existingSeats >= $auditorium->capacity){
+            $request->session()->flash('errors', 'Không tìm thấy ghế');
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }
         if($request->number_of_col * $request->number_of_row != $auditorium->capacity){
+            $request->session()->flash('errors', 'Không tìm thấy ghế');
             return response()->json([
                 'status' => false,
                 'errors' => $validator->errors()

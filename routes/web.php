@@ -1,26 +1,26 @@
 <?php
 
 
-use App\Http\Controllers\admin\AdminLoginController;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MovieController;
+use App\Http\Middleware\CheckLoginCustomer;
 use App\Http\Controllers\admin\AgeController;
-use App\Http\Controllers\admin\AuditoriumController;
 use App\Http\Controllers\admin\CastController;
-use App\Http\Controllers\admin\CustomerController;
 use App\Http\Controllers\admin\FoodController;
 use App\Http\Controllers\admin\HomeController;
-use App\Http\Controllers\admin\OrderController;
-use App\Http\Controllers\admin\ReservationTypeController;
-use App\Http\Controllers\admin\ScreeningController;
 use App\Http\Controllers\admin\SeatController;
+use App\Http\Controllers\admin\GenreController;
+use App\Http\Controllers\admin\OrderController;
+use App\Http\Controllers\admin\CustomerController;
 use App\Http\Controllers\admin\SeatTypeController;
+use App\Http\Controllers\admin\ScreeningController;
+use App\Http\Controllers\admin\AdminLoginController;
+use App\Http\Controllers\admin\AuditoriumController;
+
 use App\Http\Controllers\admin\TempImagesController;
 use App\Http\Controllers\customer\BookingController;
-use App\Http\Controllers\MovieController;
-use App\Http\Controllers\admin\GenreController;
-use Illuminate\Support\Facades\Route;
-
-use App\Http\Middleware\CheckLoginCustomer;
-use Illuminate\Support\Str;
+use App\Http\Controllers\admin\ReservationTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +36,6 @@ use Illuminate\Support\Str;
 //Route::get('/', function (){
 //    return 'hello';
 //});
-
 
 Route::get('/', [\App\Http\Controllers\customer\HomeController::class, 'index'])->name('home');
 //Route::get('/home', [\App\Http\Controllers\customer\HomeController::class, 'index'])->name('home');
@@ -70,9 +69,9 @@ Route::post('/process-reset-password', [\App\Http\Controllers\customer\CustomerC
 ////Route::get('booking',[OrderController::class,'order'])->name('booking');
 //Route::post('booking',[OrderController::class,'bookingStore'])->name('bookingStore');
 Route::get('/home',[\App\Http\Controllers\customer\HomeController::class,'index'])->name('choosingMovie');
-Route::post('/postMovie/{movie}',[\App\Http\Controllers\customer\HomeController::class,'postMovie'])->name('postMovie');
-Route::get('/choosingScreening/{movie_id}',[BookingController::class,'choosingScreening'])->name('choosingScreening');
-Route::post('/postScreening/{movie_id}',[BookingController::class,'postScreening'])->name('postScreening');
+Route::post('postMovie/{movie}',[\App\Http\Controllers\customer\HomeController::class,'postMovie'])->name('postMovie');
+Route::get('choosingScreening/{movie_id}',[BookingController::class,'choosingScreening'])->name('choosingScreening');
+Route::post('postScreening/{movie_id}',[BookingController::class,'postScreening'])->name('postScreening');
 Route::get('/test',[BookingController::class,'finishCheckOut'])->name('test');
 
 
@@ -90,18 +89,24 @@ Route::group(['prefix' => 'account'], function () {
     });
 
     Route::group(['middleware' => 'customer.auth'] , function (){
+        Route::get('/logout', [\App\Http\Controllers\customer\CustomerController::class, 'logout'])->name('customer.logout');
+
         Route::get('/profile', [\App\Http\Controllers\customer\CustomerController::class, 'profile'])->name('profile');
         Route::post('/update-profile', [\App\Http\Controllers\customer\CustomerController::class, 'update_profile'])->name('updateProfile');
+
         Route::get('/my-wishlist', [\App\Http\Controllers\customer\CustomerController::class, 'wishlist'])->name('wishlist');
         Route::post('/remove-movie-from-wishlist', [\App\Http\Controllers\customer\CustomerController::class, 'removeMovieFromWishList'])->name('removeMovieFromWishlist');
+
         Route::get('/change-password', [\App\Http\Controllers\customer\CustomerController::class, 'showChangePassword'])->name('customer.change_password');
         Route::post('/process-change-password', [\App\Http\Controllers\customer\CustomerController::class, 'changePassword'])->name('customer.process_change_password');
-        Route::get('/logout', [\App\Http\Controllers\customer\CustomerController::class, 'logout'])->name('customer.logout');
+
+        Route::get('/orders_history', [App\Http\Controllers\customer\CustomerController::class, 'showOrderHistory'])->name('orderHistory');
+        Route::get('/order_detail/{reservation}', [App\Http\Controllers\customer\CustomerController::class, 'orderDetail'])->name('orderDetail');
+
         Route::get('choosingSeat/{movie_id}',[BookingController::class,'choosingSeat'])->name('choosingSeat');
         Route::post('postSeat/{movie_id}',[BookingController::class,'postSeat'])->name('postSeat');
-        Route::get('order-history', [\App\Http\Controllers\customer\CustomerController::class, 'orderHistory'])->name('customer.orderHistory');
         Route::get('/checkout/{movie_id}', [BookingController::class, 'checkout'])->name('customer.checkout');
-        Route::post('/vnpay_payment',[BookingController::class,'vnpay_payment']);
+        Route::post('/vnpay_payment',[BookingController::class,'vnpay_payment'])->name('vnpay_payment');
     });
 });
 
@@ -118,28 +123,10 @@ Route::group(['prefix' => 'admin'], function (){
         Route::get('/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
         Route::get('/logout', [HomeController::class, 'logout'])->name('admin.logout');
         Route::get('/profile', [\App\Http\Controllers\admin\AdminController::class, 'profile'])->name('admin.profile');
-        Route::post('/upload-temp-image', [TempImagesController::class, 'createImgUser'])->name('user.temp-images.create');
-        Route::post('/update', [\App\Http\Controllers\admin\AdminController::class, 'update'])->name('user.update');
         Route::get('/change-password', [AdminLoginController::class, 'showChangePasswordForm'])->name('change_password');
         Route::post('/process-change-password', [AdminLoginController::class, 'processChangePassword'])->name('process_change_password');
-
-        // FOOD ROUTE
-//        Route::prefix('/food')->group(function () {
-//
-//            Route::get('/', [FoodController::class, 'index'])->name('food.index');
-//
-//            // Show create form for food
-//            Route::get('/create', [FoodController::class, 'create'])->name('food.create');
-//            Route::post('/create', [FoodController::class, 'store'])->name('food.store');
-//            Route::post('/upload-temp-image', [TempImagesController::class, 'createImgFood'])->name('food.temp-images.create');
-//
-//            // Edit and update routes for food
-//            Route::get('/{food}/edit', [FoodController::class, 'edit'])->name('food.edit');
-//            Route::put('/{food}', [FoodController::class, 'update'])->name('food.update');
-//
-//            // Delete route for food
-//            Route::delete('/{food}', [FoodController::class, 'destroy'])->name('food.destroy');
-//        });
+        Route::post('/upload-temp-image', [TempImagesController::class, 'createImgUser'])->name('user.temp-images.create');
+        Route::post('/update', [\App\Http\Controllers\admin\AdminController::class, 'update'])->name('user.update');
         // GENRE ROUTE
         Route::prefix('/genre')->group(function () {
 
@@ -154,6 +141,25 @@ Route::group(['prefix' => 'admin'], function (){
             Route::delete('/{genre}', [GenreController::class, 'destroy'])->name('genre.destroy');
         });
 
+
+        Route::prefix('/food')->group(function () {
+
+            Route::get('/', [FoodController::class, 'index'])->name('food.index');
+        
+            // Show create form for food
+            Route::get('/create', [FoodController::class, 'create'])->name('food.create');
+            Route::post('/create', [FoodController::class, 'store'])->name('food.store');
+        
+            // Edit and update routes for food
+            Route::get('/{food}/edit', [FoodController::class, 'edit'])->name('food.edit');
+            Route::put('/{food}', [FoodController::class, 'update'])->name('food.update');
+            Route::post('/upload-temp-image', [TempImagesController::class, 'createFoodImg'])->name('food.temp-images.create');
+
+            // Delete route for food
+            Route::delete('/{food}', [FoodController::class, 'destroy'])->name('food.destroy');
+        });
+
+        
         // MOVIE ROUTE
         Route::prefix('/movie')->group(function () {
 
@@ -230,6 +236,9 @@ Route::group(['prefix' => 'admin'], function (){
             Route::put('/{seatType}', [SeatTypeController::class, 'update'])->name('seatType.update');
             Route::delete('/{seatType}', [SeatTypeController::class, 'destroy'])->name('seatType.destroy');
         });
+
+
+
 
         // ADMIN ORDER MANAGER
         Route::prefix('/order')->group(function () {
@@ -323,6 +332,3 @@ Route::group(['prefix' => 'admin'], function (){
 ////    Route::get('/checkout', [ProductController::class, 'checkout'])->name('checkout');
 ////    Route::post('/checkout', [OrderController::class, 'checkoutProcess'])->name('checkoutProcess');
 //});
-
-
-

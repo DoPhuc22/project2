@@ -34,11 +34,11 @@ class AdminController extends Controller
                     return redirect()->route('admin.dashboard');
                 }else{
                     Auth::guard('admin')->logout();
-                    return redirect()->route('admin.login')->with('error', 'You are not authorized to access admin panel.');
+                    return redirect()->route('admin.login')->with('error', 'Bạn không được phép truy cập trang quản trị.');
                 }
 
             }else{
-                return redirect()->route('admin.login')->with('error', 'Either Email/Password is incorrect');
+                return redirect()->route('admin.login')->with('error', 'Email hoặc mật khẩu không đúng');
             }
         }else{
             return redirect()->route('admin.login')

@@ -15,6 +15,7 @@ use App\Models\SeatType;
 use App\Models\WishList;
 use App\Requests\StoreCustomerRequest;
 use App\Requests\UpdateCustomerRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -57,7 +58,7 @@ class CustomerController extends Controller
             $customer->status = 1;
             $customer->save();
 
-            session()->flash('success', 'You have been registered successfully.');
+            session()->flash('success', 'Bạn đã đăng ký tài khoản thành công.');
 
             return response()->json([
                 'status' => true,
@@ -97,13 +98,13 @@ class CustomerController extends Controller
                 }
                 else{
                     Auth::guard('customer')->logout();
-                    return redirect()->route('customer.login')->with('error', 'Your account has been locked.');
+                    return redirect()->route('customer.login')->with('error', 'Tài khoản của bạn đã bị khóa 🔒.');
                 }
             }else{
 //                session()->flash('error', 'Either email/password is incorrect.');
                 return redirect()->route('customer.login')
                     ->withInput($request->only('email'))
-                    ->with('error', 'Either email/password is incorrect.');
+                    ->with('error', 'Email hoặc mật khẩu không đúng.😓');
             }
 
         }else {
@@ -197,13 +198,13 @@ class CustomerController extends Controller
     {
         $wishlist = WishList::where('customer_id', Auth::guard('customer')->user()->id)->where('movie_id', $request->id)->first();
         if ($wishlist == null){
-            session()->flash('error', 'Phim đã bị xóa rồi.');
+            session()->flash('error', 'Phim đã bị xóa.');
             return response()->json([
                 'status' => true,
             ]);
         }else{
             WishList::where('customer_id', Auth::guard('customer')->user()->id)->where('movie_id', $request->id)->delete();
-            session()->flash('success', 'Đã xóa phim khỏi mục phim yêu thích thành công.');
+            session()->flash('success', 'Đã xóa phim khỏi mục yêu thích thành công.');
             return response()->json([
                'status' => true,
             ]);
@@ -324,11 +325,22 @@ class CustomerController extends Controller
         return \redirect()->route('customer.login')->with('success', 'Bạn đã cập nhật mật khẩu thành công');
     }
 
-    public function orderHistory(Movie $movie, Request $request)
+    public function orderHistory(Movie $movie)
     {
+        $changeStatusTickets = Reservation::select('reservations.*')->where('screening_end','<',Carbon::now())
+            ->join('screenings', 'reservations.screening_id', 'screenings.id')->get();
+        foreach($changeStatusTickets as $item){
+            $item -> status = 2;
+            $item -> save();
+        }
+
         $seats = DB::table('seats')->get();
         $id = Auth::guard('customer')->user()->id;
-        $orders = Reservation::where('customer_id', $id)->join('seats', 'reservations.seat_id', 'seats.id')->with('screening')->get();
+        $orders = Reservation::where('customer_id', $id)
+            ->where('screening_end','>',Carbon::now())
+            ->join('screenings', 'reservations.screening_id', 'screenings.id')
+            ->join('seats', 'reservations.seat_id', 'seats.id')
+            ->with('screening')->get();
         $data = [];
         $data['seats'] = $seats;
         $data['movie'] = $movie;

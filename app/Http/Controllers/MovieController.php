@@ -25,7 +25,7 @@ class MovieController extends Controller
         if (!empty($request->get('keyword'))){
             $movies = $movies->where('title', 'like', '%'.$request->get('keyword').'%');
         }
-        $movies = $movies->paginate(5);
+        $movies = $movies->paginate(8);
         $genres = Genre::all();
         $movieGenres = MovieGenre::all();
         $casts = Cast::all();

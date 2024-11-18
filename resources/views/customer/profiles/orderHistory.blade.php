@@ -259,7 +259,6 @@
 
                     <div class="ticket">
                         <div class="ticket__main">
-
                                 <div class="header">Paradise Theatre</div>
                                 <div class="info passenger">
                                     <div class="info__item">Tên phim</div>
@@ -300,32 +299,7 @@
                                     <div class="barcode__scan"></div>
                                     <div class="barcode__id">001256733</div>
                                 </div>
-                            </div>
-                            <div class="ticket__side">
-                                <div class="logo">
-                                    <p>Paradise Theatre</p>
-                                </div>
-                                <div class="info side-arrive">
-                                    <div class="info__item">Người đặt</div>
-                                    <div class="info__detail">Hogsmeade</div>
-                                </div>
-                                <div class="info side-depart">
-                                    <div class="info__item">Phòng chiếu</div>
-                                    <div class="info__detail">King's Cross</div>
-                                </div>
-                                <div class="info side-date">
-                                    <div class="info__item">Ngày đặt</div>
-                                    <div class="info__detail">1 Sep 2018</div>
-                                </div>
-                                <div class="info side-time">
-                                    <div class="info__item">Thờigianchiếu</div>
-                                    <div class="info__detail">11:00AM</div>
-                                </div>
-                                <div class="barcode">
-                                    <div class="barcode__scan"></div>
-                                    <div class="barcode__id">001256733</div>
-                                </div>
-                            </div>
+                        </div>
                     </div>
                 </div>
                 @endforeach

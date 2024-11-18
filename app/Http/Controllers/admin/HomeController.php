@@ -96,12 +96,11 @@ class HomeController extends Controller
 
         $lastMonthStartDate = Carbon::now()->subMonth()->startOfMonth()->format('Y-m-d');
         $lastMonthEndDate = Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d');
-
         $revenueTodays = Reservation::where('payment_date', '=', $currentDate)
             -> join('seats', 'reservations.seat_id', '=', 'seats.id')
             -> join('seat_types', 'seats.type_id', '=', 'seat_types.id')
             -> select(DB::raw('sum(price) as revenueToday'))->get();
-
+//    dd($revenueTodays);
         $revenueLastSevenDays = Reservation::where('payment_date', '>=', $lastSevenDays)
             -> join('seats', 'reservations.seat_id', '=', 'seats.id')
             -> join('seat_types', 'seats.type_id', '=', 'seat_types.id')

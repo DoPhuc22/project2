@@ -19,7 +19,7 @@ class CastController extends Controller
         if (!empty($request->get('keyword'))){
             $casts = $casts->where('name', 'like', '%'.$request->get('keyword').'%' );
         }
-        $casts = $casts->paginate(6);
+        $casts = $casts->paginate(8);
         return view('admin.cast_manager.index', [
             'casts' => $casts,
         ]);

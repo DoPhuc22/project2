@@ -25,12 +25,14 @@
                                 <div class="mb-3">
                                     <label for="number_of_row">Số lượng ghế theo hàng ngang</label>
                                     <input type="number" min="1" name="number_of_row" id="number_of_row" class="form-control">
+                                    <p></p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="Screening End">Số lượng ghế theo hàng dọc</label>
                                     <input type="number" min="1" name="number_of_col" id="number_of_col" class="form-control">
+                                    <p></p>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -45,6 +47,7 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
                 <div class="pb-5 pt-3">
                     <button class="btn btn-primary" type="submit">Tạo</button>
@@ -73,7 +76,6 @@
                         window.location.href='{{route('seat.index')}}'
                         $("#number_of_row").removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("");
                         $("#number_of_col").removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("");
-                        $("#auditorium_id").removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("");
                     }else {
                         var errors = response['errors'];
                         if (errors['number_of_row']){
@@ -86,12 +88,6 @@
                             $("#number_of_col").addClass('is-invalid').siblings('p').addClass('invalid-feedback').html(errors['number_of_col']);
                         }else {
                             $("#number_of_col").removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("");
-                        }
-
-                        if (errors['auditorium_id']){
-                            $("#auditorium_id").addClass('is-invalid').siblings('p').addClass('invalid-feedback').html(errors['auditorium_id']);
-                        }else {
-                            $("#auditorium_id").removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("");
                         }
                     }
 

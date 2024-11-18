@@ -64,14 +64,13 @@
                                                     <div class="mb-3">
                                                         @foreach ($screening as $item)
                                                             {{$item->screening_start}}
-
                                                             {{$item->screening_end}}
                                                         @endforeach
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-4 text-white">
-                                                    Seat: @foreach ($order as $item)
+                                                    Seat: @foreach ($seats as $item)
                                                         {{ $item->number_of_row . chr($item->number_of_col + 64) }}
                                                     @endforeach
                                                 </div>
@@ -146,11 +145,13 @@
                                                 @foreach ($movie as $item)
                                                     <input type="hidden" name="movie" value="{{$item->id}}">
                                                 @endforeach
-
+                                                @foreach ($screening as $item)
+                                                <input type="hidden" name="screening" value="{{$item->id}}">
+                                                @endforeach
                                                 <button type="submit" name="redirect" class="btn-dark btn btn-block w-100">Pay Now</button>
                                             </form>
                                             <button type="submit" name="previous" class="btn-dark btn btn-block w-100">
-{{--                                                <a class="text-white nav-link" href="{{ route('choosingSeat', $movie_id) }}">Previous</a>--}}
+                                               <a class="text-white nav-link" href="{{ route('choosingScreening', $movie_id) }}">Previous</a>
                                             </button>
                                             {{--//Movie, Screening, Customer(id , phone number), seat--}}
 

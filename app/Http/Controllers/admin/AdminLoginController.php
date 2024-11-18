@@ -37,10 +37,10 @@ class AdminLoginController extends Controller
                 }
                 else{
                     Auth::guard('admin')->logout();
-                    return redirect()->route('admin.login')->with('error', 'You are not authorized to access admin panel.');
+                    return redirect()->route('admin.login')->with('error', 'Bạn không được phép truy cập trang quản trị.');
                 }
             }else{
-                return redirect()->route('admin.login')->with('error', 'Either Email/Password is incorrect');
+                return redirect()->route('admin.login')->with('error', 'Email hoặc mật khẩu không đúng');
             }
         }else{
             return redirect()->route('admin.login')
@@ -67,7 +67,7 @@ class AdminLoginController extends Controller
 
         if ($validator->passes()){
             if (!Hash::check($request->old_password, $admin->password)){
-                session()->flash('error', 'Your old password is incorrect, please try again.');
+                session()->flash('error', 'Mật khẩu cũ của bạn không đúng, vui lòng thử lại.');
                 return response()->json([
                     'status' => true,
                 ]);
@@ -77,7 +77,7 @@ class AdminLoginController extends Controller
                 'password' => Hash::make($request->new_password)
             ]);
 
-            session()->flash('success', 'Your have successfully changed your password.');
+            session()->flash('success', 'Bạn đã đổi mật khẩu thành công.');
             return response()->json([
                 'status' => true,
             ]);

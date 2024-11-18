@@ -28,7 +28,7 @@ class OrderController extends Controller
         if (!empty($request->get('keyword'))){
             $orders = $orders->where('screening_id', 'like', '%'.$request->get('keyword').'%' );
         }
-        $orders = $orders->paginate(10);
+        $orders = $orders->paginate(18);
         return view('admin.order_manager.index', [
             'orders' => $orders,
         ]);

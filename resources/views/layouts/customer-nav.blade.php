@@ -303,4 +303,3 @@
 
 @yield('customJs')
 </body>
-
